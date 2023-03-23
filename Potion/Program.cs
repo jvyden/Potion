@@ -1,4 +1,6 @@
 ﻿using Potion;
+using Potion.CodeGen;
+using Potion.VirtualMachine;
 
 if (args.Length < 1)
 {

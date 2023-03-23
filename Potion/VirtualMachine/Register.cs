@@ -1,4 +1,4 @@
-namespace Potion;
+namespace Potion.VirtualMachine;
 
 public enum Register
 {

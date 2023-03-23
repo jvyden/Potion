@@ -1,4 +1,6 @@
-namespace Potion;
+using Potion.VirtualMachine;
+
+namespace Potion.CodeGen;
 
 public static class PotionAssembly
 {

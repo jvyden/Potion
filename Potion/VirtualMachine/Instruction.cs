@@ -1,6 +1,6 @@
 using Potion.Extensions;
 
-namespace Potion;
+namespace Potion.VirtualMachine;
 
 public readonly struct Instruction
 {

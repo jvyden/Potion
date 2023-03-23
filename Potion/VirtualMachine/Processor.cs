@@ -1,7 +1,6 @@
-using System.Diagnostics;
 using Potion.Extensions;
 
-namespace Potion;
+namespace Potion.VirtualMachine;
 
 public class Processor
 {
