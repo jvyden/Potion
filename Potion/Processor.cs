@@ -51,7 +51,7 @@ public class Processor
                 _registers[instruction.Register] = (byte)Console.ReadKey().KeyChar;
                 break;
             case InstructionType.Jump:
-                _address = register;
+                _address = instruction.Operand;
                 break;
             case InstructionType.Halt:
                 Console.WriteLine("HALT");

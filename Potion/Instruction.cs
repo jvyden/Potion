@@ -1,3 +1,5 @@
+using Potion.Extensions;
+
 namespace Potion;
 
 public readonly struct Instruction
@@ -11,10 +13,9 @@ public readonly struct Instruction
         Type = type;
         Operand = operand;
     }
-    
-    public Instruction(InstructionType type, char operand, Register register = Register.A)
+
+    public override string ToString()
     {
-        Type = type;
-        Operand = (byte)operand;
+        return $"{Type.ToString().ToLower()} {Register.ToString().ToLower()} {Operand.ToHexString()}";
     }
 }
