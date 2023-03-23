@@ -1,5 +1,5 @@
-﻿using Potion;
-using Potion.CodeGen;
+﻿using Potion.CodeGen;
+using Potion.Emulator;
 using Potion.VirtualMachine;
 
 if (args.Length < 1)

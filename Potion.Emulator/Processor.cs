@@ -1,6 +1,7 @@
 using Potion.Extensions;
+using Potion.VirtualMachine;
 
-namespace Potion.VirtualMachine;
+namespace Potion.Emulator;
 
 public class Processor
 {
