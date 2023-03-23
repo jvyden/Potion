@@ -6,6 +6,7 @@ public enum InstructionType : byte
     
     Add = 0xA1,
     Sub = 0xA2,
+    Mul = 0xA3,
     /// <summary>
     /// Sets a value in the register
     /// </summary>

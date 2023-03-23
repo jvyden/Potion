@@ -32,6 +32,12 @@ public class Processor
         Instruction instruction = _program[_address];
         _address++;
 
+        byte operand;
+        if (instruction.RegisterReference != null)
+            operand = _registers[instruction.RegisterReference.Value];
+        else
+            operand = instruction.Operand;
+
         byte register = _registers[instruction.Register];
 
         switch (instruction.Type)
@@ -43,18 +49,23 @@ public class Processor
 
             case InstructionType.Add:
             {
-                _registers[instruction.Register] = (byte)(register + instruction.Operand);
+                _registers[instruction.Register] = (byte)(register + operand);
                 break;
             }
             case InstructionType.Sub:
             {
-                _registers[instruction.Register] = (byte)(register - instruction.Operand);
+                _registers[instruction.Register] = (byte)(register - operand);
+                break;
+            }
+            case InstructionType.Mul:
+            {
+                _registers[instruction.Register] = (byte)(register * operand);
                 break;
             }
 
             case InstructionType.Set:
             {
-                _registers[instruction.Register] = instruction.Operand;
+                _registers[instruction.Register] = operand;
                 break;
             }
 
@@ -94,19 +105,19 @@ public class Processor
             
             case InstructionType.Jmp:
             {
-                _address = instruction.Operand;
+                _address = operand;
                 break;
             }
             case InstructionType.JmpE:
             {
                 if (_registers[Register.A] == _registers[Register.B])
-                    _address = instruction.Operand;
+                    _address = operand;
                 break;
             }
             case InstructionType.JmpNe:
             {
                 if (_registers[Register.A] != _registers[Register.B])
-                    _address = instruction.Operand;
+                    _address = operand;
                 break;
             }
 

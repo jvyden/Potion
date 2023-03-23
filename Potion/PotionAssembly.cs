@@ -2,19 +2,36 @@ namespace Potion;
 
 public static class PotionAssembly
 {
-    private static bool TryParseOperand(string operandStr, out byte operand)
+    private static bool TryParseOperand(string operandStr, out byte operand, out Register? registerRef)
     {
-        // 0xAA
-        if (operandStr.StartsWith("0x"))
+        // %a (register)
+        if (operandStr.StartsWith('%'))
         {
-            operand = byte.Parse(operandStr.Substring(2), System.Globalization.NumberStyles.HexNumber);
+            operand = 0x00;
+            if (!Enum.TryParse(operandStr.Substring(1), true, out Register register))
+            {
+                Console.WriteLine($"REGISTER COULD NOT BE FOUND! What is '{operandStr}'? Not setting operand");
+                registerRef = null;
+                return false;
+            }
+
+            registerRef = register;
             return true;
         }
-
+        
+        registerRef = null;
+        
         // 'a'
         if (operandStr.StartsWith('\''))
         {
             operand = (byte)operandStr[1];
+            return true;
+        }
+        
+        // 0xAA
+        if (operandStr.StartsWith("0x"))
+        {
+            operand = byte.Parse(operandStr.Substring(2), System.Globalization.NumberStyles.HexNumber);
             return true;
         }
 
@@ -49,11 +66,12 @@ public static class PotionAssembly
             }
 
             Register reg = Register.A;
+            Register? regRef = null;
             byte operand = 0x00;
 
             if (split.Length > 1)
             {
-                if (TryParseOperand(split[1], out operand)) reg = Register.A;
+                if (TryParseOperand(split[1], out operand, out regRef)) reg = Register.A;
                 else
                 {
                     if (!Enum.TryParse(split[1], true, out reg))
@@ -62,11 +80,11 @@ public static class PotionAssembly
                         reg = Register.A;
                     }
 
-                    if (split.Length > 2) TryParseOperand(split[2], out operand);
+                    if (split.Length > 2) TryParseOperand(split[2], out operand, out regRef);
                 }
             }
 
-            Instruction instruction = new Instruction(type, operand, reg);
+            Instruction instruction = new Instruction(type, operand, reg, regRef);
             // Console.WriteLine(instruction);
             instructions.Add(instruction);
         }
