@@ -3,6 +3,7 @@
 using System.Diagnostics;
 using Potion.Lang;
 using Potion.Lang.Lexing;
+using Potion.Lang.Parsing;
 
 
 ReadOnlySpan<byte> code = @"print(4 + 5);"u8;

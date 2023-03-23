@@ -1,8 +1,7 @@
 using Potion.Lang.Lexing;
-using Potion.Lang.Parsing;
 using Potion.Lang.Parsing.Expressions;
 
-namespace Potion.Lang;
+namespace Potion.Lang.Parsing;
 
 public class Parser
 {
