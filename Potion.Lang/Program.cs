@@ -4,9 +4,10 @@ using System.Diagnostics;
 using Potion.Lang;
 using Potion.Lang.Lexing;
 using Potion.Lang.Parsing;
+using Potion.Lang.Parsing.Expressions;
 
 
-ReadOnlySpan<byte> code = @"print(4 + 5);"u8;
+ReadOnlySpan<byte> code = @"print(4 + 8);"u8;
 
 Stopwatch stopwatch = new();
 stopwatch.Start();
@@ -24,7 +25,7 @@ foreach (Token token in tokens)
 stopwatch.Restart();
 
 Parser parser = new(tokens);
-parser.ParseAll();
+RootExpression expr = parser.ParseAll();
 
 Console.WriteLine("Parsed code in " + stopwatch.ElapsedMilliseconds + "ms");
 stopwatch.Restart();

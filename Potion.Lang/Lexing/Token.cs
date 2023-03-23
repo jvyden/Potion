@@ -15,4 +15,9 @@ public readonly struct Token
     {
         return $"{Type.ToString()} {Data}";
     }
+
+    public bool IsMathToken => Type is TokenType.Add or TokenType.Subtract or TokenType.Multiply;
+
+    public bool IsLiteralOrIdentifier => Type is TokenType.CharLiteral or TokenType.IntLiteral
+        or TokenType.StringLiteral or TokenType.Identifier;
 }
