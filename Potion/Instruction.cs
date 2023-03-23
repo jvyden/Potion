@@ -12,6 +12,7 @@ public readonly struct Instruction
     {
         Type = type;
         Operand = operand;
+        this.Register = register;
     }
 
     public override string ToString()

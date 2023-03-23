@@ -53,8 +53,16 @@ public class Processor
             case InstructionType.Jump:
                 _address = instruction.Operand;
                 break;
+            case InstructionType.JumpIfEqual:
+                if (_registers[Register.A] == _registers[Register.B])
+                    _address = instruction.Operand;
+                break;
+            case InstructionType.JumpIfNotEqual:
+                if (_registers[Register.A] != _registers[Register.B])
+                    _address = instruction.Operand;
+                break;
             case InstructionType.Halt:
-                Console.WriteLine("HALT");
+                Console.WriteLine("HALT!");
                 Halted = true;
                 break;
             default:
