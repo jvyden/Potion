@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Potion.Emulator\Potion.Emulator.csproj" />
       <ProjectReference Include="..\Potion\Potion.csproj" />
     </ItemGroup>
 
