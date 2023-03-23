@@ -10,7 +10,7 @@ public class Processor
 
     private readonly Dictionary<Register, byte> _registers = new();
 
-    private const int MemorySize = 1024 * 2;
+    private const int MemorySize = 1024 * 2; // 2KB
     private readonly byte[] _memory;
 
     public Processor(Instruction[] program)
@@ -90,16 +90,21 @@ public class Processor
                 _registers[instruction.Register] = (byte)c;
                 break;
             }
+            case InstructionType.WVal:
+            {
+                Console.WriteLine($"wval: {register} ({register.ToHexString()})");
+                break;
+            }
 
             case InstructionType.RMem:
             {
-                _registers[instruction.Register] = _memory[_registers[Register.C]];
+                _registers[instruction.Register] = _memory[operand];
                 break;
             }
             
             case InstructionType.WMem:
             {
-                _memory[_registers[Register.C]] = _registers[instruction.Register];
+                _memory[operand] = _registers[instruction.Register];
                 break;
             }
             
@@ -139,6 +144,7 @@ public class Processor
         }
         
         if (_address >= _program.Length) this.Halted = true;
+        // Thread.Sleep(25);
     }
 
     public void DumpRegistersToConsole()

@@ -20,9 +20,12 @@ public enum InstructionType : byte
     /// Read a character from the console
     /// </summary>
     RChar = 0xD2,
-    
     WMem = 0xD3,
     RMem = 0xD4,
+    /// <summary>
+    /// Print a value to the console
+    /// </summary>
+    WVal = 0xD5,
     
     Jmp = 0xDA,
     /// <summary>
