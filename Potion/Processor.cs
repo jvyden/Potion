@@ -1,3 +1,4 @@
+using System.Numerics;
 using Potion.Extensions;
 
 namespace Potion;
@@ -31,42 +32,75 @@ public class Processor
         switch (instruction.Type)
         {
             case InstructionType.Nop:
+            {
                 break;
-        
+            }
+
             case InstructionType.Add:
+            {
                 _registers[instruction.Register] = (byte)(register + instruction.Operand);
                 break;
+            }
             case InstructionType.Sub:
+            {
                 _registers[instruction.Register] = (byte)(register - instruction.Operand);
                 break;
+            }
 
             case InstructionType.Set:
+            {
                 _registers[instruction.Register] = instruction.Operand;
                 break;
+            }
 
             case InstructionType.Print:
-                Console.Write((char)register);
+            {
+                char c = (char)register;
+                if (c == '\n')
+                {
+                    Console.WriteLine();
+                    break;
+                }
+                
+                Console.Write(c);
                 break;
+            }
             case InstructionType.Read:
-                _registers[instruction.Register] = (byte)Console.ReadKey().KeyChar;
+            {
+                ConsoleKeyInfo key = Console.ReadKey();
+                char c = key.KeyChar;
+                if (key.Key == ConsoleKey.Enter) c = '\n'; // would be \r without this
+
+                _registers[instruction.Register] = (byte)c;
                 break;
+            }
             case InstructionType.Jmp:
+            {
                 _address = instruction.Operand;
                 break;
+            }
             case InstructionType.JmpE:
+            {
                 if (_registers[Register.A] == _registers[Register.B])
                     _address = instruction.Operand;
                 break;
+            }
             case InstructionType.JmpNe:
+            {
                 if (_registers[Register.A] != _registers[Register.B])
                     _address = instruction.Operand;
                 break;
+            }
             case InstructionType.Hlt:
+            {
                 Console.WriteLine("HALT!");
                 Halted = true;
-                break;
+                return;
+            }
             default:
+            {
                 throw new ArgumentOutOfRangeException();
+            }
         }
         
         if (_address >= _program.Length) this.Halted = true;
