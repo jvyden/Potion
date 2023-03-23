@@ -32,7 +32,6 @@ public class Parser
           }
 
           Token? lastToken = null;
-          bool hasMathExpression = false;
           while ((token = NextToken()).Type != TokenType.CloseParentheses)
           {
                tokens.Add(token);

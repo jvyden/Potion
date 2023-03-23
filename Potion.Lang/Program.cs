@@ -1,7 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using System.Diagnostics;
-using Potion.Lang;
 using Potion.Lang.Lexing;
 using Potion.Lang.Parsing;
 using Potion.Lang.Parsing.Expressions;

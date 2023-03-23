@@ -2,5 +2,5 @@ namespace Potion.Lang.Parsing.Expressions;
 
 public class RootExpression
 {
-    public List<IExpression> Expressions = new();
+    public readonly List<IExpression> Expressions = new();
 }
