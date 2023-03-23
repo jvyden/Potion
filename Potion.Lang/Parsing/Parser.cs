@@ -31,8 +31,6 @@ public class Parser
                throw new ParseException("Expected (");
           }
 
-          tokens.Add(token);
-
           while ((token = NextToken()).Type != TokenType.CloseParentheses)
           {
                tokens.Add(token);
