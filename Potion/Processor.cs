@@ -67,7 +67,7 @@ public class Processor
             }
             case InstructionType.Read:
             {
-                ConsoleKeyInfo key = Console.ReadKey();
+                ConsoleKeyInfo key = Console.ReadKey(true);
                 char c = key.KeyChar;
                 if (key.Key == ConsoleKey.Enter) c = '\n'; // would be \r without this
 
