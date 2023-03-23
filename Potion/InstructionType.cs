@@ -10,8 +10,10 @@ public enum InstructionType : byte
 
     Print = 0xD1,
     Read = 0xD2,
-    Jump = 0xDA,
-    JumpIfEqual = 0xDB,
-    JumpIfNotEqual = 0xDC,
-    Halt = 0xDF,
+    
+    Jmp = 0xDA,
+    JmpE = 0xDB,
+    JmpNe = 0xDC,
+    
+    Hlt = 0xDF,
 }

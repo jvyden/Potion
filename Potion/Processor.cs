@@ -50,18 +50,18 @@ public class Processor
             case InstructionType.Read:
                 _registers[instruction.Register] = (byte)Console.ReadKey().KeyChar;
                 break;
-            case InstructionType.Jump:
+            case InstructionType.Jmp:
                 _address = instruction.Operand;
                 break;
-            case InstructionType.JumpIfEqual:
+            case InstructionType.JmpE:
                 if (_registers[Register.A] == _registers[Register.B])
                     _address = instruction.Operand;
                 break;
-            case InstructionType.JumpIfNotEqual:
+            case InstructionType.JmpNe:
                 if (_registers[Register.A] != _registers[Register.B])
                     _address = instruction.Operand;
                 break;
-            case InstructionType.Halt:
+            case InstructionType.Hlt:
                 Console.WriteLine("HALT!");
                 Halted = true;
                 break;
