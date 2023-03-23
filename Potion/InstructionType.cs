@@ -14,11 +14,14 @@ public enum InstructionType : byte
     /// <summary>
     /// Print a character to the console
     /// </summary>
-    Print = 0xD1,
+    WChar = 0xD1,
     /// <summary>
     /// Read a character from the console
     /// </summary>
-    Read = 0xD2,
+    RChar = 0xD2,
+    
+    WMem = 0xD3,
+    RMem = 0xD4,
     
     Jmp = 0xDA,
     /// <summary>
@@ -29,6 +32,11 @@ public enum InstructionType : byte
     /// Jumps if A and B are not equal
     /// </summary>
     JmpNe = 0xDC,
+    
+    /// <summary>
+    /// Dump memory
+    /// </summary>
+    Dmp = 0xDE,
     
     /// <summary>
     /// Stops execution

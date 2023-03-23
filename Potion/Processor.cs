@@ -1,4 +1,4 @@
-using System.Numerics;
+using System.Diagnostics;
 using Potion.Extensions;
 
 namespace Potion;
@@ -10,6 +10,9 @@ public class Processor
 
     private readonly Dictionary<Register, byte> _registers = new();
 
+    private const int MemorySize = 1024 * 2;
+    private readonly byte[] _memory;
+
     public Processor(Instruction[] program)
     {
         // Initialize registers
@@ -18,6 +21,8 @@ public class Processor
 
         this._program = program;
         this._address = 0;
+
+        this._memory = new byte[MemorySize];
     }
     
     public bool Halted { get; private set; }
@@ -53,7 +58,7 @@ public class Processor
                 break;
             }
 
-            case InstructionType.Print:
+            case InstructionType.WChar:
             {
                 char c = (char)register;
                 if (c == '\n')
@@ -65,7 +70,7 @@ public class Processor
                 Console.Write(c);
                 break;
             }
-            case InstructionType.Read:
+            case InstructionType.RChar:
             {
                 ConsoleKeyInfo key = Console.ReadKey(true);
                 char c = key.KeyChar;
@@ -74,6 +79,19 @@ public class Processor
                 _registers[instruction.Register] = (byte)c;
                 break;
             }
+
+            case InstructionType.RMem:
+            {
+                _registers[instruction.Register] = _memory[_registers[Register.C]];
+                break;
+            }
+            
+            case InstructionType.WMem:
+            {
+                _memory[_registers[Register.C]] = _registers[instruction.Register];
+                break;
+            }
+            
             case InstructionType.Jmp:
             {
                 _address = instruction.Operand;
@@ -89,6 +107,12 @@ public class Processor
             {
                 if (_registers[Register.A] != _registers[Register.B])
                     _address = instruction.Operand;
+                break;
+            }
+
+            case InstructionType.Dmp:
+            {
+                File.WriteAllBytes("memory.bin", _memory);
                 break;
             }
             case InstructionType.Hlt:
