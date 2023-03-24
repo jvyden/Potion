@@ -46,12 +46,36 @@ public class Lexer
     {
         bool readingString = false;
         bool readingChar = false;
+        bool readingEscape = false;
         
         foreach (byte b in code)
         {
             if (readingString || readingChar)
             {
                 char end = readingChar ? '\'' : '"';
+
+                if ((char)b == '\\')
+                {
+                    readingEscape = true;
+                    _currentToken += (char)b;
+                    continue;
+                }
+
+                if (readingEscape)
+                {
+                    char[] tokenArr = _currentToken.ToCharArray();
+                    tokenArr[^1] = (char)b switch
+                    {
+                        '0' => '\0',
+                        'n' => '\n',
+                        _ => '?'
+                    };
+
+                    _currentToken = new string(tokenArr);
+                    readingEscape = false;
+                    continue;
+                }
+                
                 if ((char)b == end)
                 {
                     TokenType type = readingChar ? TokenType.CharLiteral : TokenType.StringLiteral;

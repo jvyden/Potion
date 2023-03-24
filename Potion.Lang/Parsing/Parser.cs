@@ -66,19 +66,18 @@ public class Parser
                     }
                }
                else if (token.Type is TokenType.CharLiteral)
-               {
                     ex.Argument = new CharLiteralExpression(tokens[0].Data[0]);
-               }
                else if (token.Type is TokenType.StringLiteral)
-               {
                     ex.Argument = new StringLiteralExpression(tokens[0].Data);
-               }
                else
-               {
                     throw new ParseException("Invalid type for print statement");
-               }
-               
+
                lastToken = token;
+          }
+
+          if (tokens.Count == 0)
+          {
+               ex.Argument = new CharLiteralExpression('\n');
           }
           
           return ex;
