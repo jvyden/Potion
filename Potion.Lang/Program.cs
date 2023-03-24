@@ -8,7 +8,7 @@ using Potion.Lang.Parsing;
 using Potion.Lang.Parsing.Expressions;
 using Potion.VirtualMachine;
 
-ReadOnlySpan<byte> code = @"print(4 + 8);"u8;
+ReadOnlySpan<byte> code = File.ReadAllBytes(string.Join(' ', args));
 
 Stopwatch totalStopwatch = new();
 Stopwatch stopwatch = new();

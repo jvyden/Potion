@@ -32,6 +32,7 @@ public class Lexer
     private static TokenType TokenToType(string data) => data switch
     {
         "print" => TokenType.Print,
+        "halt" => TokenType.Halt,
         "+" => TokenType.Add,
         "-" => TokenType.Subtract,
         "*" => TokenType.Multiply,
@@ -45,7 +46,10 @@ public class Lexer
     {
         foreach (byte b in code)
         {
-            if (char.IsWhiteSpace((char)b) && _currentToken.Length > 0) AddCurrentToken();
+            if (char.IsWhiteSpace((char)b))
+            {
+                if(_currentToken.Length > 0) AddCurrentToken();
+            }
             else if (b == '(') AddSyntaxToken(b);
             else if (b == ')') AddSyntaxToken(b);
             else if (b == ';') AddSyntaxToken(b);

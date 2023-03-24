@@ -44,11 +44,17 @@ public class Compiler
         _program.Add(new Instruction(InstructionType.WVal, 0x00, Register.A, null));
     }
 
+    private void CompileHalt(HaltExpression expr)
+    {
+        _program.Add(new Instruction(InstructionType.Hlt, 0x00, Register.A, null));
+    }
+
     public Instruction[] Compile()
     {
         foreach (IExpression expr in _root.Expressions)
         {
             if(expr is PrintExpression print) CompilePrint(print);
+            if(expr is HaltExpression halt) CompileHalt(halt);
         }
 
         return _program.ToArray();

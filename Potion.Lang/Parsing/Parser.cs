@@ -78,25 +78,31 @@ public class Parser
           {
                Token token = NextToken();
 
-               IExpression? parsed = Parse(token);
-               if (parsed == null) continue;
-
+               IExpression parsed = ParseLine(token);
                root.Expressions.Add(parsed);
           }
 
           if (root.Expressions.Count == 0)
-               throw new ParseException("No tokens were found.");
+               throw new ParseException("No tokens were found after parsing.");
 
           return root;
      }
 
-     private IExpression? Parse(Token token)
+     private IExpression ParseLine(Token token)
      {
+          IExpression? result = null;
+          
           if (token.Type == TokenType.Print)
-               return ParsePrint();
-          if (token.Type == TokenType.EndLine)
-               return null;
+               result = ParsePrint();
+          if (token.Type == TokenType.Halt)
+               result = new HaltExpression();
 
-          throw new ParseException("No tokens were found.");
+          if (NextToken().Type != TokenType.EndLine)
+          {
+               throw new ParseException("Missing semicolon");
+          }
+
+          if (result != null) return result;
+          throw new ParseException($"Unexpected {token.Type}: {token.Data}");
      }
 }

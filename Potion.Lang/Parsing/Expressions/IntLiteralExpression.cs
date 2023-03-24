@@ -2,7 +2,7 @@ namespace Potion.Lang.Parsing.Expressions;
 
 public class IntLiteralExpression : IExpression
 {
-    public int Value;
+    public readonly int Value;
 
     public IntLiteralExpression(int value)
     {
