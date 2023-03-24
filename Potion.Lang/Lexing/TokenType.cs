@@ -5,6 +5,7 @@ public enum TokenType
     // Syntax //
     OpenParentheses, // (
     CloseParentheses, // )
+    NextArg, // ,
     EndLine, // ;
 
     // Math //
@@ -15,6 +16,8 @@ public enum TokenType
     // Keywords //
     Halt,
     Print,
+    Label,
+    Jump,
     
     // Literals //
     Identifier, // var name/function name

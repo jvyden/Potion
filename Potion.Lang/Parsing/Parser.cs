@@ -83,6 +83,28 @@ public class Parser
           return ex;
      }
 
+     private LabelExpression ParseLabel()
+     {
+          Token token = NextToken();
+          if (token.Type != TokenType.Identifier) throw new ParseException("Expected identifier for label");
+
+          return new LabelExpression
+          {
+               LabelName = token.Data,
+          };
+     }
+     
+     private JumpExpression ParseJump()
+     {
+          Token token = NextToken();
+          if (token.Type != TokenType.Identifier) throw new ParseException("Expected identifier for label");
+
+          return new JumpExpression
+          {
+               LabelName = token.Data,
+          };
+     }
+
      public RootExpression ParseAll()
      {
           RootExpression root = new();
@@ -108,8 +130,12 @@ public class Parser
                result = ParsePrint();
           if (token.Type == TokenType.Halt)
                result = new HaltExpression();
+          if (token.Type == TokenType.Label)
+               result = ParseLabel();
+          if (token.Type == TokenType.Jump)
+               result = ParseJump();
 
-          if (NextToken().Type != TokenType.EndLine)
+          if (result != null && NextToken().Type != TokenType.EndLine)
           {
                throw new ParseException("Missing semicolon");
           }

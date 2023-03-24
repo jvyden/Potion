@@ -10,6 +10,8 @@ public class Compiler
     private readonly List<Instruction> _program = new();
     private readonly RootExpression _root;
 
+    private readonly Dictionary<string, int> _labels = new();
+
     public Compiler(RootExpression root)
     {
         _root = root;
@@ -66,12 +68,30 @@ public class Compiler
         _program.Add(new Instruction(InstructionType.Hlt, 0x00, Register.A, null));
     }
 
+    private void CompileLabel(LabelExpression expr)
+    {
+        if (_labels.ContainsKey(expr.LabelName))
+            throw new Exception($"Label {expr.LabelName} already exists");
+        
+        _labels.Add(expr.LabelName, _program.Count);
+    }
+
+    private void CompileJump(JumpExpression expr)
+    {
+        if (!_labels.ContainsKey(expr.LabelName))
+            throw new Exception($"Label {expr.LabelName} does not exist!");
+
+        _program.Add(new Instruction(InstructionType.Jmp, (byte)_labels[expr.LabelName], Register.A, null));
+    }
+
     public Instruction[] Compile()
     {
         foreach (IExpression expr in _root.Expressions)
         {
             if(expr is PrintExpression print) CompilePrint(print);
-            if(expr is HaltExpression halt) CompileHalt(halt);
+            else if(expr is HaltExpression halt) CompileHalt(halt);
+            else if(expr is LabelExpression label) CompileLabel(label);
+            else if(expr is JumpExpression jump) CompileJump(jump);
         }
 
         return _program.ToArray();

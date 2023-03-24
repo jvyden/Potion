@@ -33,11 +33,14 @@ public class Lexer
     {
         "print" => TokenType.Print,
         "halt" => TokenType.Halt,
+        "label" => TokenType.Label,
+        "jump" => TokenType.Jump,
         "+" => TokenType.Add,
         "-" => TokenType.Subtract,
         "*" => TokenType.Multiply,
         "(" => TokenType.OpenParentheses,
         ")" => TokenType.CloseParentheses,
+        "," => TokenType.NextArg,
         ";" => TokenType.EndLine,
         _ => TokenType.Identifier
     };
@@ -98,6 +101,7 @@ public class Lexer
             }
             else if (b == '(') AddSyntaxToken(b);
             else if (b == ')') AddSyntaxToken(b);
+            else if (b == ',') AddSyntaxToken(b);
             else if (b == ';') AddSyntaxToken(b);
             else if (b == '"') readingString = true;
             else if (b == '\'') readingChar = true;

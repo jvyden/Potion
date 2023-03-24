@@ -1,2 +1,4 @@
+label loop;
 print("hello world\n");
+jump loop;
 halt;
