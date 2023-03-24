@@ -1,5 +1,6 @@
 using Potion.Lang.Lexing;
 using Potion.Lang.Parsing.Expressions;
+using Potion.Lang.Parsing.Expressions.Literals;
 using Potion.VirtualMachine;
 
 namespace Potion.Lang;
@@ -34,12 +35,28 @@ public class Compiler
         _program.Add(new Instruction(type, 0x00, Register.A, Register.B));
     }
 
+    private void WriteChar(char c)
+    {
+        SetRegister(Register.A, (byte)c);
+        _program.Add(new Instruction(InstructionType.WChar, 0x00, Register.A, null));
+    }
+
     private void CompilePrint(PrintExpression expr)
     {
         if(expr.Argument is MathExpression math)
             this.CompileMath(math);
         else if (expr.Argument is IntLiteralExpression intExpr)
             SetRegister(Register.A, intExpr.Value);
+        else if (expr.Argument is CharLiteralExpression charExpr)
+        {
+            WriteChar(charExpr.Value);
+            return;
+        }
+        else if (expr.Argument is StringLiteralExpression strExpr)
+        {
+            foreach (char c in strExpr.Value) WriteChar(c);
+            return;
+        }
         
         _program.Add(new Instruction(InstructionType.WVal, 0x00, Register.A, null));
     }

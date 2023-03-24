@@ -1,4 +1,5 @@
 using Potion.Lang.Lexing;
+using Potion.Lang.Parsing.Expressions.Literals;
 
 namespace Potion.Lang.Parsing.Expressions;
 

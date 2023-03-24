@@ -44,8 +44,30 @@ public class Lexer
 
     public IEnumerable<Token> Analyze(ReadOnlySpan<byte> code)
     {
+        bool readingString = false;
+        bool readingChar = false;
+        
         foreach (byte b in code)
         {
+            if (readingString || readingChar)
+            {
+                char end = readingChar ? '\'' : '"';
+                if ((char)b == end)
+                {
+                    TokenType type = readingChar ? TokenType.CharLiteral : TokenType.StringLiteral;
+                    readingChar = false;
+                    readingString = false;
+                    
+                    _tokens.Add(new Token(type, _currentToken));
+                    _currentToken = string.Empty;
+                    
+                    continue;
+                }
+                
+                _currentToken += (char)b;
+                continue;
+            }
+            
             if (char.IsWhiteSpace((char)b))
             {
                 if(_currentToken.Length > 0) AddCurrentToken();
@@ -53,6 +75,8 @@ public class Lexer
             else if (b == '(') AddSyntaxToken(b);
             else if (b == ')') AddSyntaxToken(b);
             else if (b == ';') AddSyntaxToken(b);
+            else if (b == '"') readingString = true;
+            else if (b == '\'') readingChar = true;
             else
             {
                 _currentToken += (char)b;

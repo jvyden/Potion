@@ -1,5 +1,6 @@
 using Potion.Lang.Lexing;
 using Potion.Lang.Parsing.Expressions;
+using Potion.Lang.Parsing.Expressions.Literals;
 
 namespace Potion.Lang.Parsing;
 
@@ -63,6 +64,18 @@ public class Parser
                     {
                          ex.Argument = new IntLiteralExpression(int.Parse(tokens[0].Data));
                     }
+               }
+               else if (token.Type is TokenType.CharLiteral)
+               {
+                    ex.Argument = new CharLiteralExpression(tokens[0].Data[0]);
+               }
+               else if (token.Type is TokenType.StringLiteral)
+               {
+                    ex.Argument = new StringLiteralExpression(tokens[0].Data);
+               }
+               else
+               {
+                    throw new ParseException("Invalid type for print statement");
                }
                
                lastToken = token;
